@@ -1,0 +1,16 @@
+body{
+    background-color: black;
+}
+li{
+    color: white;
+    font-size: 20px;
+    list-style-type:none;
+}
+
+li:hover{
+    color: gray;
+}
+
+button{
+    border: none;
+}
