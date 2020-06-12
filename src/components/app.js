@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Musica } from "./musica";
-import { Vacio } from "./vacio";
 
 
 export const App = () => {
@@ -10,19 +8,16 @@ export const App = () => {
         playStop: false,
         cancionActual: []
     })
+    const [claseCancion, setClaseCancion] = useState(null)
 
 
     let referencia = useRef();
 
-    /*   const ponerCancion = (objeto) => {
-          return objeto.map((ele, index) => {
-               return <Musica key={index} {...ele} />
-           })
-       } */
-    const setearMusica = (cancion) => {
+    const setearMusica = (cancion, e) => {
         referencia.src = `https://assets.breatheco.de/apis/sound/${cancion}`;
         console.log(cancion);
 
+        seleccionada(e);
 
     }
 
@@ -30,7 +25,6 @@ export const App = () => {
     }
 
     const playMusic = () => {
-
         setState((prevState) => {
             return { ...prevState, playStop: true }
         })
@@ -38,7 +32,6 @@ export const App = () => {
 
     }
     const pauseMusic = () => {
-
         referencia.pause();
         setState((prevState) => {
             /*Cambia el valor por el contrario  */
@@ -57,9 +50,20 @@ export const App = () => {
                     return { ...prevState, songs: data }
                 })
             })
-
     }
 
+    const seleccionada = (e) => {
+        //claseCancion de lo que clickee, tiene algo dentro? si es asi, quitale la clase bg-info
+        if (claseCancion !== null) {
+            claseCancion.classList.remove("bg-info")
+        }
+        //inserta la clase bg-info al que clickee
+        e.target.classList.add("bg-info");
+        //a mi variable le inserto mi e.target(esto contiene el nombre, sus clases, toda la info de ESE elemento que se clickeo)
+        setClaseCancion(e.target)
+    }
+
+    //Al momento de cargar la página
     useEffect(() => {
         getSongs("https://assets.breatheco.de/apis/sound/songs")
     }, [])
@@ -70,17 +74,18 @@ export const App = () => {
         <div className="container py-5">
             <div className="row">
                 <div className="col-md-6 mx-auto ">
-                    <ol className="list-group border border-info">
+                    <ol className="list-group border border-info  bg-dark">
                         {
-                            state.songs == null ? <Vacio /> :
+                            state.songs == null ? <h2>Lista Vacia</h2> :
                                 state.songs.map((ele, index) => {
                                     return (
-                                        <li key={index} className="list-group-item bg-dark" onClick={() => setearMusica(ele.url)} >
+                                        <li key={index} className="list-group-item bg-secondary" onClick={(e) => setearMusica(ele.url, e)} >
                                             {`${ele.id} - ${ele.name}`}
-                                            <audio ref={(evento) => referencia = evento} id="audio" src="" />
                                         </li>)
                                 })
                         }
+                        {/* Aqui mantengo la referencia ya que solo necesito que se vaya cambiando, no creando una por cada li */}
+                        <audio ref={(evento) => referencia = evento} id="audio" src="" />
                     </ol>
                     <button type="button" className="btn btn-dark btn-lg border-right mt-2 mx-2" onClick={() => cancionAnterior()}>Anterior</button>
 
