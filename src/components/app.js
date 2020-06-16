@@ -20,7 +20,6 @@ export const App = () => {
             return { ...prevState, active: index, playStop:false }
         })
 
-
     }
 
     const cancionAnterior = () => {
