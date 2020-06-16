@@ -14,3 +14,8 @@ li:hover{
 button{
     border: none;
 }
+
+ol{
+    overflow: scroll;
+    height: 400px;
+}
