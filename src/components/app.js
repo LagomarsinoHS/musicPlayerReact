@@ -9,9 +9,6 @@ export const App = () => {
         cancionActual: [],
         active: null
     })
-    const [claseCancion, setClaseCancion] = useState(null)
-
-
     let referencia = useRef();
 
     const setearMusica = (cancion, index = "",) => {
@@ -73,10 +70,10 @@ export const App = () => {
                 <div className="col-md-6 mx-auto ">
                     <ol className="list-group border border-info  bg-dark">
                         {
-                            state.songs == null ? <h2>Lista Vacia</h2> :
+                            state.songs === null ? <h2>Lista Vacia</h2> :
                                 state.songs.map((ele, index) => {
                                     return (
-                                        <li key={index} className={"list-group-item bg-secondary" + (index == state.active ? " bg-info" : "")} onClick={(e) => setearMusica(ele.url, index, e)} >
+                                        <li key={index} className={"list-group-item bg-secondary" + (index === state.active ? " bg-info" : "")} onClick={(e) => setearMusica(ele.url, index, e)} >
                                             {`${ele.id} - ${ele.name}`}
                                         </li>)
                                 })
